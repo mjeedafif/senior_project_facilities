@@ -16,6 +16,7 @@ import '../translations/locale_keys.g.dart';
 //provider
 import '../provider/User.dart';
 import '../provider/Auth.dart';
+import '../provider/language.dart';
 
 //Color
 import '../constants/colors.dart';
@@ -241,6 +242,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     );
               setState(() {
                 this.value = value!;
+                Provider.of<Language>(context, listen: false)
+                    .changeLanguage(this.value, context);
               });
             }),
       ),

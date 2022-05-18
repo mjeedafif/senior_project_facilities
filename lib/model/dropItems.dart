@@ -3,6 +3,7 @@
 class DropItems {
   String title;
   bool isSelected;
+  String lan;
 
-  DropItems(this.title, this.isSelected);
+  DropItems(this.title, this.isSelected, this.lan);
 }

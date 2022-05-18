@@ -42,26 +42,39 @@ class Facilities {
 class FacilitiesProvider with ChangeNotifier {
   List<Facilities> _facilities = [];
   final List<DropItems> _categories = [
-    DropItems(LocaleKeys.indoor.tr(), false),
-    DropItems(LocaleKeys.outdoor.tr(), false)
+    DropItems('Outdoor', false, 'en'),
+    DropItems('Indoor', false, 'en'),
+    DropItems('خارجي', false, 'ar'),
+    DropItems('داخلي', false, 'ar'),
   ];
   final List<DropItems> _capacity = [
-    DropItems(LocaleKeys.MoreThan20.tr(), false),
-    DropItems(LocaleKeys.between10To20.tr(), false),
-    DropItems(LocaleKeys.lessThan10.tr(), false),
+    DropItems('More than 20', false, 'en'),
+    DropItems('between 10 and 20', false, 'en'),
+    DropItems('Less than 10', false, 'en'),
+    DropItems('أكثر من ٢٠', false, 'ar'),
+    DropItems('بين ٢٠ و ١٠', false, 'ar'),
+    DropItems('أقل من ١٠', false, 'ar'),
   ];
   final List<DropItems> _faculty = [
-    DropItems(LocaleKeys.fcit.tr(), false),
-    DropItems(LocaleKeys.deanshipOfStudent.tr(), false),
-    DropItems(LocaleKeys.engineering.tr(), false),
-    DropItems(LocaleKeys.medical.tr(), false),
-    DropItems(LocaleKeys.tourism.tr(), false),
+    DropItems('FCIT', false, 'en'),
+    DropItems('Deanship of student', false, 'en'),
+    DropItems('Engineering', false, 'en'),
+    DropItems('Medical', false, 'en'),
+    DropItems('Tourism', false, 'en'),
+    DropItems('الحاسبات', false, 'ar'),
+    DropItems('عمادة شؤون الطلاب', false, 'ar'),
+    DropItems('الهندسة', false, 'ar'),
+    DropItems('الطب', false, 'ar'),
+    DropItems('السياحة', false, 'ar'),
   ];
   List<DropItems> _totalFilter = [];
 
-  List<DropItems> get categories => _categories;
-  List<DropItems> get capacity => _capacity;
-  List<DropItems> get faculty => _faculty;
+  List<DropItems> categories(String lan) =>
+      _categories.where((element) => element.lan == lan).toList();
+  List<DropItems> capacity(String lan) =>
+      _capacity.where((element) => element.lan == lan).toList();
+  List<DropItems> faculty(String lan) =>
+      _faculty.where((element) => element.lan == lan).toList();
 
   ///The time for test
   ///get it from data base from each facilities
@@ -262,15 +275,15 @@ class FacilitiesProvider with ChangeNotifier {
   }
 
   void deleteAllFilters() {
-    categories.forEach((element) {
+    _categories.forEach((element) {
       element.isSelected = false;
     });
 
-    capacity.forEach((element) {
+    _capacity.forEach((element) {
       element.isSelected = false;
     });
 
-    faculty.forEach((element) {
+    _faculty.forEach((element) {
       element.isSelected = false;
     });
     notifyListeners();
@@ -279,17 +292,17 @@ class FacilitiesProvider with ChangeNotifier {
   List<DropItems> getTotalFilter() {
     List<DropItems> _temp = [];
 
-    categories.forEach((element) {
+    _categories.forEach((element) {
       if (element.isSelected) {
         _temp.add(element);
       }
     });
-    capacity.forEach((element) {
+    _capacity.forEach((element) {
       if (element.isSelected) {
         _temp.add(element);
       }
     });
-    faculty.forEach((element) {
+    _faculty.forEach((element) {
       if (element.isSelected) {
         _temp.add(element);
       }

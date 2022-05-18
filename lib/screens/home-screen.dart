@@ -17,6 +17,7 @@ import '../provider/Auth.dart';
 import '../provider/facilities.dart';
 import '../provider/User.dart';
 import '../provider/booking.dart';
+import '../provider/language.dart';
 
 //Translations
 import '../translations/locale_keys.g.dart';
@@ -45,11 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      categories =
-          Provider.of<FacilitiesProvider>(context, listen: false).categories;
+      String lan = EasyLocalization.of(context)!.currentLocale.toString();
+      print(lan);
+      categories = Provider.of<FacilitiesProvider>(context, listen: false)
+          .categories(lan);
       capacity =
-          Provider.of<FacilitiesProvider>(context, listen: false).capacity;
-      faculty = Provider.of<FacilitiesProvider>(context, listen: false).faculty;
+          Provider.of<FacilitiesProvider>(context, listen: false).capacity(lan);
+      faculty =
+          Provider.of<FacilitiesProvider>(context, listen: false).faculty(lan);
     });
     super.initState();
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 //Translations
 import '../translations/locale_keys.g.dart';
@@ -187,9 +188,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
         (checkDate.day == DateTime.now().day &&
             checkDate.month == DateTime.now().month &&
             checkTime.hour < time.hour))) {
-      return 'Up comming';
+      return EasyLocalization.of(context)!.currentLocale.toString() == 'ar'
+          ? 'قادم'
+          : 'Up comming';
     } else {
-      return 'Completed';
+      return EasyLocalization.of(context)!.currentLocale.toString() == 'ar'
+          ? 'انتهت'
+          : 'Completed';
     }
   }
 
@@ -247,12 +252,12 @@ class _ReservationScreenState extends State<ReservationScreen> {
             status
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: titleStatus == 'Completed'
+                    child: titleStatus == 'Completed' || titleStatus == 'انتهت'
                         ? Column(
                             children: [
-                              const Text(
-                                'Completed',
-                                style: TextStyle(
+                              Text(
+                                LocaleKeys.completed.tr(),
+                                style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: ConstColors.primaryColor),
@@ -316,18 +321,18 @@ class _ReservationScreenState extends State<ReservationScreen> {
                                 },
                               );
                             },
-                            child: const Text('Delete the reservation'),
+                            child: Text(LocaleKeys.deleteReservation.tr()),
                             style: ElevatedButton.styleFrom(
                               primary: ConstColors.logoutColor,
                             ),
                           ),
                   )
-                : const SizedBox(
+                : SizedBox(
                     width: double.infinity,
                     child: Text(
-                      'Cancelled',
+                      LocaleKeys.cancelled.tr(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.red,
@@ -451,7 +456,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                       Text(
                           '${receiveData.date} -  $hour:${min != 0 ? min.toStringAsPrecision(2) : min.toString()}0'),
                       Text(
-                        status ? titleStatus : 'Cancelled',
+                        status ? titleStatus : LocaleKeys.cancelled.tr(),
                         //textAlign: TextAlign.start,
                         style: TextStyle(
                           color: status ? Colors.green : Colors.red,
@@ -477,13 +482,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
   }
 
   Widget title() {
-    return const SizedBox(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 10.0),
         child: Text(
-          'Reservation Record',
-          style: TextStyle(
+          LocaleKeys.reservationRecords.tr(),
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -509,7 +514,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   ? (mediaQuery.width / 7.0)
                   : (mediaQuery.width / 9.0),
             ),
-            child: Text('Reservations'),
+            child: Text(LocaleKeys.reservation.tr()),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -517,7 +522,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   ? (mediaQuery.width / 7.2)
                   : (mediaQuery.width / 9),
             ),
-            child: Text('Cancelled'),
+            child: Text(LocaleKeys.cancelled.tr()),
           ),
         ],
         onPressed: (int newIndex) {

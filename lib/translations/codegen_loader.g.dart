@@ -48,7 +48,13 @@ class CodegenLoader extends AssetLoader{
   "save": "Save",
   "confirm": "Confirm",
   "filterFacilities": "Filter the facilities",
-  "deleteAllFilters": "Delete all filters"
+  "deleteAllFilters": "Delete all filters",
+  "reservationRecords": "Reservation Records",
+  "deleteReservation": "Delete the reservation",
+  "cancelled": "Cancelled",
+  "completed": "Completed",
+  "upComing": "Up comming",
+  "rate": "Rate the facility"
 };
 static const Map<String,dynamic> ar = {
   "user_id": "اسم المستخدم",
@@ -84,7 +90,13 @@ static const Map<String,dynamic> ar = {
   "save": "حفظ",
   "confirm": "تأكيد",
   "filterFacilities": "تصفية المرافق",
-  "deleteAllFilters": "حذف جميع التصفية"
+  "deleteAllFilters": "حذف جميع التصفية",
+  "reservationRecords": "سجل الحجوزات",
+  "deleteReservation": "حذف الحجز",
+  "cancelled": "ملغى",
+  "completed": "انتهت",
+  "upComing": "قادم",
+  "rate": "قيم المرفق"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ar": ar};
 }

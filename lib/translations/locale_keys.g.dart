@@ -35,5 +35,11 @@ abstract class  LocaleKeys {
   static const confirm = 'confirm';
   static const filterFacilities = 'filterFacilities';
   static const deleteAllFilters = 'deleteAllFilters';
+  static const reservationRecords = 'reservationRecords';
+  static const deleteReservation = 'deleteReservation';
+  static const cancelled = 'cancelled';
+  static const completed = 'completed';
+  static const upComing = 'upComing';
+  static const rate = 'rate';
 
 }

@@ -32,5 +32,11 @@
   "save": "حفظ",
   "confirm": "تأكيد",
   "filterFacilities": "تصفية المرافق",
-  "deleteAllFilters": "حذف جميع التصفية"
+  "deleteAllFilters": "حذف جميع التصفية",
+  "reservationRecords": "سجل الحجوزات",
+  "deleteReservation": "حذف الحجز",
+  "cancelled": "ملغى",
+  "completed": "انتهت",
+  "upComing": "قادم",
+  "rate": "قيم المرفق"
 }

@@ -19,7 +19,8 @@ import './provider/Auth.dart';
 import './provider/User.dart';
 import './provider/facilities.dart';
 import './provider/booking.dart';
-import 'provider/canelled.dart';
+import './provider/canelled.dart';
+import './provider/language.dart';
 
 //Translations
 import './translations/codegen_loader.g.dart';
@@ -84,6 +85,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProxyProvider<Auth, CancelledProvider>(
           update: (ctx, auth, prev) => prev!..auth = auth,
           create: (ctx) => CancelledProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Language(),
         ),
         // ChangeNotifierProxyProvider<FacilitiesProvider, CancelledProvider>(
         //   create: (ctx) => CancelledProvider(),

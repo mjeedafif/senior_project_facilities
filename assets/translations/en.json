@@ -32,5 +32,12 @@
   "save": "Save",
   "confirm": "Confirm",
   "filterFacilities": "Filter the facilities",
-  "deleteAllFilters": "Delete all filters"
+  "deleteAllFilters": "Delete all filters",
+  "reservationRecords": "Reservation Records",
+  "deleteReservation": "Delete the reservation",
+  "cancelled": "Cancelled",
+  "completed": "Completed",
+  "upComing": "Up comming",
+  "rate": "Rate the facility"
+
 }
