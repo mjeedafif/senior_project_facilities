@@ -150,14 +150,14 @@ class FacilitiesProvider with ChangeNotifier {
       BuildContext context, String belong) async {
     List<Facilities> _tempFacilities = [];
     //First filter from python
-    // List<dynamic> ids = await filterFacilities();
+    List<dynamic> ids = await filterFacilities();
 
-    // ids.forEach((id) {
-    //   Facilities facilityToAdd =
-    //       _facilities.firstWhere((element) => element.id == id);
-    //   _tempFacilities.add(facilityToAdd);
-    //   // print(facilityToAdd.name);
-    // });
+    ids.forEach((id) {
+      Facilities facilityToAdd =
+          _facilities.firstWhere((element) => element.id == id);
+      _tempFacilities.add(facilityToAdd);
+      print(facilityToAdd.name);
+    });
 
     //To match with the database
     String lowerBelong = belong.toLowerCase();
@@ -167,9 +167,9 @@ class FacilitiesProvider with ChangeNotifier {
       String check = getBelongArabic(belong);
       //print(check);
       _tempFacilities =
-          _facilities.where((element) => element.belong == check).toList();
+          _tempFacilities.where((element) => element.belong == check).toList();
     } else {
-      _tempFacilities = _facilities
+      _tempFacilities = _tempFacilities
           .where((element) => element.belong == lowerBelong)
           .toList();
     }
@@ -312,7 +312,7 @@ class FacilitiesProvider with ChangeNotifier {
   }
 
   Future<List<dynamic>> filterFacilities() async {
-    final url = Uri.parse('http://127.0.0.1:5000/${auth.token}');
+    final url = Uri.parse('https://bookfacilities.herokuapp.com/${auth.token}');
     try {
       final response = await http.get(url);
       //remove slashes
