@@ -217,6 +217,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Column(
                     children: [
                       TextFormField(
+                        textAlign: TextAlign.left,
                         //For email registeration
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
@@ -229,6 +230,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           }
                           return null;
                         },
+
                         decoration: InputDecoration(
                           hintText: LocaleKeys.email.tr(),
                           border: OutlineInputBorder(
@@ -249,6 +251,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             TextFormField(
                               //For email registeration
                               keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.left,
                               onSaved: (value) {
                                 _authData['fName'] = value!;
                               },
@@ -278,6 +281,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               onSaved: (value) {
                                 _authData['userId'] = value!;
                               },
+                              textAlign: TextAlign.left,
                               textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if (value!.isEmpty) {
@@ -306,6 +310,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       TextFormField(
                         //For password
                         obscureText: true,
+                        textAlign: TextAlign.left,
                         keyboardType: TextInputType.text,
                         controller: _passController,
                         validator: (value) {
@@ -339,6 +344,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       if (authType == AuthType.signUp)
                         TextFormField(
                           //For confirm password
+                          textAlign: TextAlign.left,
                           obscureText: true,
                           keyboardType: TextInputType.text,
                           textInputAction: TextInputAction.done,
