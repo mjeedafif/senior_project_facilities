@@ -17,6 +17,7 @@ import '../translations/locale_keys.g.dart';
 import '../provider/User.dart';
 import '../provider/Auth.dart';
 import '../provider/language.dart';
+import '../provider/facilities.dart';
 
 //Color
 import '../constants/colors.dart';
@@ -212,6 +213,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               await context.setLocale(
                 Locale(locale),
               );
+              Provider.of<FacilitiesProvider>(context, listen: false)
+                  .deleteAllFilters();
               Platform.isIOS
                   ? showCupertinoDialog<void>(
                       context: context,

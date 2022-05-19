@@ -69,6 +69,8 @@ class FacilitiesProvider with ChangeNotifier {
   ];
   List<DropItems> _totalFilter = [];
 
+  void clearTotalFilter() => _totalFilter = [];
+
   List<DropItems> categories(String lan) =>
       _categories.where((element) => element.lan == lan).toList();
   List<DropItems> capacity(String lan) =>
@@ -159,6 +161,36 @@ class FacilitiesProvider with ChangeNotifier {
     return englishBelong;
   }
 
+  String getFilter(String fac) {
+    String englishFac = '';
+    //print(belong);
+    print(fac);
+    switch (fac) {
+      case 'الحاسبات':
+        //print('meeting');
+        englishFac = 'fcit';
+        break;
+      case 'عمادة شؤون الطلاب':
+        //print('labs');
+        englishFac = 'Deanship of Students';
+        break;
+      case 'الهندسة':
+        //print('theater');
+        englishFac = 'engineering';
+        break;
+
+      case 'الطب':
+        //print('sports');
+        englishFac = 'medical';
+        break;
+      case 'السياحة':
+        //print('theater');
+        englishFac = 'tourism';
+        break;
+    }
+    return englishFac;
+  }
+
   Future<List<Facilities>> getFacilities(
       BuildContext context, String belong) async {
     List<Facilities> _tempFacilities = [];
@@ -169,7 +201,7 @@ class FacilitiesProvider with ChangeNotifier {
       Facilities facilityToAdd =
           _facilities.firstWhere((element) => element.id == id);
       _tempFacilities.add(facilityToAdd);
-      print(facilityToAdd.name);
+      //print(facilityToAdd.fac);
     });
 
     //To match with the database
@@ -190,15 +222,38 @@ class FacilitiesProvider with ChangeNotifier {
     //Third filter the user filter
     _totalFilter = getTotalFilter();
     if (_totalFilter.isNotEmpty) {
-      _faculty.forEach((element) {
+      List<DropItems>? _tempFaculty;
+      if (context.locale.toString() == 'en') {
+        _tempFaculty =
+            _faculty.where((element) => element.lan == 'en').toList();
+        // _tempFaculty.forEach((element) {
+        //   print(element.title);
+        // });
+      } else {
+        _tempFaculty =
+            _faculty.where((element) => element.lan == 'ar').toList();
+      }
+      _tempFaculty.forEach((element) {
         if (!element.isSelected) {
-          //Check which filter is this
-          var title = element.title.toLowerCase();
-          //Remove the facility
-          _tempFacilities.removeWhere((element) {
-            var lowerFac = element.fac.toLowerCase();
-            return lowerFac == title;
-          });
+          if (context.locale.toString() == 'en') {
+            print('Access en');
+            //Check which filter is this
+            var title = element.title.toLowerCase();
+            print('$title this is the title');
+            //Remove the facility
+            _tempFacilities.removeWhere((element) {
+              var lowerFac = element.fac.toLowerCase();
+              return lowerFac == title;
+            });
+          } else {
+            print('Access ar');
+            var title = getFilter(element.title).toLowerCase();
+            print('$title this is element title');
+            _tempFacilities.removeWhere((element) {
+              var lowerFac = element.fac.toLowerCase();
+              return lowerFac == title;
+            });
+          }
         }
       });
       //When there is filter that will calls
@@ -209,7 +264,7 @@ class FacilitiesProvider with ChangeNotifier {
 
           //Remove the cap
           _tempFacilities.removeWhere((element) {
-            print(element.cap);
+            //print(element.cap);
             var size = getSize(title);
             //print(size);
             return false;
