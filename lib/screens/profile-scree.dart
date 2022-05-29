@@ -34,10 +34,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String value = 'English';
   var locale = 'en';
   var _isvisited = true;
+  var _localeAuth = false;
+  late UserProvider user;
+  late Auth auth;
 
   @override
   void didChangeDependencies() {
     if (_isvisited) {
+      user = Provider.of<UserProvider>(context, listen: false);
+      auth = Provider.of<Auth>(context, listen: false);
+      _localeAuth = user.localAuth;
       var lan = context.locale.toString();
       switch (lan) {
         case 'en':
@@ -55,8 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false);
-    final auth = Provider.of<Auth>(context, listen: false);
+    // final user =
+    // final auth =
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -105,6 +111,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         dropDownLonguage(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 45.0, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Face/Finger auth',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Switch.adaptive(
+                                value: _localeAuth,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _localeAuth = value;
+                                  });
+                                  user.toggleLocalAuth(_localeAuth);
+                                },
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),

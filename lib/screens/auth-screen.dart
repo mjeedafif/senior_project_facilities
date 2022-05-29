@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +10,8 @@ import '../translations/locale_keys.g.dart';
 import 'package:local_auth/local_auth.dart';
 
 import 'dart:io';
+//model
+import '../model/LocalAuthApi.dart';
 
 //providers
 import '../provider/Auth.dart';
@@ -21,6 +24,12 @@ import '../screens/myApp.dart';
 import '../constants/colors.dart';
 
 enum AuthType { login, signUp }
+
+enum _SupportState {
+  unknown,
+  supported,
+  unsupported,
+}
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);
@@ -42,16 +51,20 @@ class _AuthScreenState extends State<AuthScreen> {
   };
   //late bool useFaceId = false;
   late GlobalKey<FormState> _formState;
-  final LocalAuthentication auth = LocalAuthentication();
+  var localAuth;
+  var _isVisited = true;
+
+  @override
+  void didChangeDependencies() {
+    if (_isVisited) {
+      localAuth = Provider.of<UserProvider>(context, listen: false).localAuth;
+    }
+    _isVisited = false;
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
-    // _passController = TextEditingController();
-    // _confirmPass = TextEditingController();
-    // _formState = GlobalKey();
-    //useFaceId = false;
-    //getUsingBiometric();
-    // Timer(const Duration(milliseconds: 1), getUsingBiometric);
     initAsync();
     super.initState();
   }
@@ -60,6 +73,7 @@ class _AuthScreenState extends State<AuthScreen> {
     _passController = TextEditingController();
     //_confirmPass = TextEditingController();
     _formState = GlobalKey();
+
     //getUsingBiometric();
   }
 
@@ -70,32 +84,32 @@ class _AuthScreenState extends State<AuthScreen> {
     super.dispose();
   }
 
-  void authenticate() async {
-    final canCheck = await auth.canCheckBiometrics;
+  // void authenticate() async {
+  //   final canCheck = await auth.canCheckBiometrics;
 
-    if (canCheck) {
-      List<BiometricType> availableBiometrics =
-          await auth.getAvailableBiometrics();
+  //   if (canCheck) {
+  //     List<BiometricType> availableBiometrics =
+  //         await auth.getAvailableBiometrics();
 
-      if (Platform.isIOS) {
-        if (availableBiometrics.contains(BiometricType.face)) {
-          // Face ID.
-          final isAuthenticated = await auth.authenticate(
-              localizedReason: 'Enable Face ID to sign in more easily');
-          if (isAuthenticated) {
-            // ! change the logic this now just let him go to home page
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (ctx) => const FacilityApp()),
-            );
-          }
-        } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
-          // Touch ID.
-        }
-      }
-    } else {
-      print('Not supperted');
-    }
-  }
+  //     if (Platform.isIOS) {
+  //       if (availableBiometrics.contains(BiometricType.face)) {
+  //         // Face ID.
+  //         final isAuthenticated = await auth.authenticate(
+  //             localizedReason: 'Enable Face ID to sign in more easily');
+  //         if (isAuthenticated) {
+  //           // ! change the logic this now just let him go to home page
+  //           Navigator.of(context).push(
+  //             MaterialPageRoute(builder: (ctx) => const FacilityApp()),
+  //           );
+  //         }
+  //       } else if (availableBiometrics.contains(BiometricType.fingerprint)) {
+  //         // Touch ID.
+  //       }
+  //     }
+  //   } else {
+  //     print('Not supperted');
+  //   }
+  // }
 
   // void setUsingBiometric(bool value) async {
   //   final prefs = await SharedPreferences.getInstance();
@@ -190,6 +204,7 @@ class _AuthScreenState extends State<AuthScreen> {
         child: ListView(
           padding: const EdgeInsets.all(0),
           children: [
+            //Image
             Container(
               height: MediaQuery.of(context).size.height * 0.3,
               width: double.infinity,
@@ -202,6 +217,7 @@ class _AuthScreenState extends State<AuthScreen> {
             const SizedBox(
               height: 20,
             ),
+            //Text fields
             Container(
               height: authType == AuthType.signUp
                   ? MediaQuery.of(context).size.height * 0.75
@@ -424,6 +440,31 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      if (localAuth)
+                        TextButton(
+                          onPressed: () async {
+                            print('Local auth');
+                            final isAuthenticated =
+                                await LocalAuthApi.authenticate();
+                            if (isAuthenticated) {
+                              print('pass');
+                            } else {
+                              print('reject');
+                            }
+                            //_getAvailableBiometrics();
+                          },
+                          child: Text(
+                            'Use face id',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: ConstColors.textButtonColor,
+                            ),
+                          ),
+                        ),
                       //if (authType == AuthType.login)
                       //For using face ID
                       // useFaceId
