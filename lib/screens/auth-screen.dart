@@ -446,14 +446,20 @@ class _AuthScreenState extends State<AuthScreen> {
                       if (localAuth)
                         TextButton(
                           onPressed: () async {
-                            print('Local auth');
-                            final isAuthenticated =
+                            // print('Local auth');
+                            // final isAuthenticated =
+                            //     await LocalAuthApi.authenticate();
+                            // if (isAuthenticated) {
+                            //   print('pass');
+                            // } else {
+                            //   print('reject');
+                            // }
+                            Map<String, dynamic> data =
                                 await LocalAuthApi.authenticate();
-                            if (isAuthenticated) {
-                              print('pass');
-                            } else {
-                              print('reject');
-                            }
+                            await Provider.of<Auth>(context, listen: false)
+                                .logIn(data['email'], data['password'])
+                                .catchError(
+                                    (error) => _errorMessage(error.toString()));
                             //_getAvailableBiometrics();
                           },
                           child: Text(

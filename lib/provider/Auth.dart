@@ -2,14 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../model/HttpException.dart';
+
+//Provider
+import './Prefs.dart';
 
 class Auth extends ChangeNotifier {
   String? _token;
   DateTime? _expireDate;
   String? _userId;
+  SharedPreferences? _prefs;
 
   String get token => _token!;
   String get userId => _userId!;
@@ -41,6 +46,12 @@ class Auth extends ChangeNotifier {
           },
         ),
       );
+
+      //Save the data to shared prefs
+      _prefs = await Prefs.init();
+      await _prefs!.setString('email', email);
+      await _prefs!.setString('password', password);
+
       final responseData = json.decode(response.body);
       if (responseData['error'] != null) {
         //print(responseData['error']['message'].runtimeType);

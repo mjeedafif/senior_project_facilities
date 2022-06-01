@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 //provider
 import './Auth.dart';
@@ -26,6 +27,7 @@ class UserProvider with ChangeNotifier {
   late Auth auth;
   bool _localAuth = false;
   late String _idGenerated;
+  SharedPreferences? _prefs;
 
   String get fName => _fName;
   String get uId => _uId;
